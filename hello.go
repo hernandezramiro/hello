@@ -5,7 +5,6 @@ import "fmt"
 
 func main() {
 	
-	
 	/* calling a function to get max value */
 	/*
 	var ret int
@@ -31,7 +30,9 @@ func main() {
 	*/
 	
 	//usingPointers()
-	usingPointerArray()
+	//usingPointerArray()
+	//usingPointerToPointer()
+	usingPointersInFunctions()
 }
 
 /* function returning the max between two numbers */
@@ -86,5 +87,54 @@ func usingPointerArray(){
 	}
 }
 
+func usingPointerToPointer(){
+	var a int
+	var ptr *int
+	var pptr **int
+	
+	a = 3000
+	
+	/* take the address of var */
+	ptr = &a
+	
+	/* take the address of ptr using address of operator & */
+	pptr = &ptr
+	
+	/* take the value using pptr */
+	fmt.Printf("Value of a = %d\n", a )
+	fmt.Printf("Value available at *ptr = %d\n", *ptr )
+	fmt.Printf("Value available at **pptr = %d\n", *pptr)
+	
+	fmt.Printf("----------------------------\n")
+	
+	fmt.Printf("Memory address of a = %x\n", &a)
+	fmt.Printf("Memory address of ptr = %x\n", ptr)
+	fmt.Printf("Memory address of pptr = %x\n", pptr)
+}
 
+func usingPointersInFunctions(){
+	/* local variable definition */
+	var a int = 100
+	var b int= 200
+	
+	fmt.Printf("Before swap, value of a : %d\n", a )
+	fmt.Printf("Before swap, value of b : %d\n", b )
+	
+	/* calling a function to swap the values.
+	* &a indicates pointer to a ie. address of variable a and 
+	* &b indicates pointer to b ie. address of variable b.
+	*/
+	funcWhichAllowsPointers(&a, &b);
+	
+	fmt.Printf("----------------------------\n")
+	
+	fmt.Printf("After swap, value of a : %d\n", a )
+	fmt.Printf("After swap, value of b : %d\n", b )
+}
 
+func funcWhichAllowsPointers(x *int, y *int) {
+   var temp int
+   temp = *x    /* save the value at address x */
+   *x = *y      /* put y into x */
+   *y = temp    /* put temp into y */
+}
