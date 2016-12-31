@@ -2,6 +2,8 @@
 
 import "fmt"
 //import "strings"
+import "math"
+import "errors"
 
 func main() {
 	
@@ -37,7 +39,9 @@ func main() {
 	//sendingStructsToFunctions()
 	//usingSlices()
 	//usingSlicesSecondPart()
-	usingRanges()
+	//usingRanges()
+	//usingMaps()
+	usingInterfaces()
 }
 
 type Books struct {
@@ -321,3 +325,94 @@ func usingRanges(){
 	}
 }
 
+func usingMaps(){
+	var countryCapitalMap map[string]string
+	/* create a map*/
+	countryCapitalMap = make(map[string]string)
+	
+	/* insert key-value pairs in the map*/
+	countryCapitalMap["France"] = "Paris"
+	countryCapitalMap["Italy"] = "Rome"
+	countryCapitalMap["Japan"] = "Tokyo"
+	countryCapitalMap["India"] = "New Delhi"
+	
+	countryCapitalMap["United States"] = "Washington"
+	
+	/* print map using keys*/
+	for country := range countryCapitalMap {
+		fmt.Println("Capital of",country,"is",countryCapitalMap[country])
+	}
+	
+	/* test if entry is present in the map or not*/
+	capital, ok := countryCapitalMap["United States"]
+	
+	fmt.Printf("----------------------------\n")
+	
+	/* if ok is true, entry is present otherwise entry is absent*/
+	if(ok){
+		fmt.Println("Capital of United States is", capital)
+	}else {
+		fmt.Println("Capital of United States is not present")
+	}
+	
+	/* delete an entry */
+	delete(countryCapitalMap,"France");
+	fmt.Println("Entry for France was deleted")
+	
+	fmt.Printf("--The Map was updated\n")
+	
+	/* print map using keys*/
+	for country := range countryCapitalMap {
+		fmt.Println("Capital of",country,"is",countryCapitalMap[country])
+	}
+}
+
+//USING INTERFACES BEGINS
+
+func usingInterfaces()(int,error){
+	circle := Circle{x:0,y:0,radius:5}
+	rectangle := Rectangle {width:10, height:5}
+	
+	var ok bool = false
+	
+	if(ok == true){
+		return 0, errors.New("Math: negative number passed to Sqrt")
+	}
+	
+	fmt.Printf("Circle area: %f\n",Shape.area(circle))
+	fmt.Printf("Rectangle area: %f\n",getArea(rectangle))
+	
+	return 0, nil
+}
+
+/* define an interface */
+type Shape interface {
+	area() float64
+}
+
+/* define a circle */
+type Circle struct {
+	x,y,radius float64
+}
+
+/* define a rectangle */
+type Rectangle struct {
+	width, height float64
+}
+
+/* define a method for circle (implementation of Shape.area())*/
+func(circle Circle) area() float64 {
+	return math.Pi * circle.radius * circle.radius
+}
+
+/* define a method for rectangle (implementation of Shape.area())*/
+func(rect Rectangle) area() float64 {
+	return rect.width * rect.height
+}
+
+/* define a method for shape */
+func getArea(shape Shape) float64 {
+	return shape.area()
+}
+
+//USING INTERFACES ENDS
