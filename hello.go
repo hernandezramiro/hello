@@ -32,7 +32,19 @@ func main() {
 	//usingPointers()
 	//usingPointerArray()
 	//usingPointerToPointer()
-	usingPointersInFunctions()
+	//usingPointersInFunctions()
+	//usingStructs()
+	//sendingStructsToFunctions()
+	//usingSlices()
+	//usingSlicesSecondPart()
+	usingRanges()
+}
+
+type Books struct {
+   title string
+   author string
+   subject string
+   book_id int
 }
 
 /* function returning the max between two numbers */
@@ -138,3 +150,174 @@ func funcWhichAllowsPointers(x *int, y *int) {
    *x = *y      /* put y into x */
    *y = temp    /* put temp into y */
 }
+
+func usingStructs(){
+	
+	/*
+	type Books struct {
+		title string
+		author string
+		subject string
+		book_id int
+	}*/
+	
+	/* Declare Book1 of type Book */
+	var Book1 Books
+	
+	/* Declare Book2 of type Book */
+	var Book2 Books
+
+	/* book 1 specification */
+	Book1.title = "Go Programming"
+	Book1.author = "Mahesh Kumar"
+	Book1.subject = "Go Programming Tutorial"
+	Book1.book_id = 6495407
+	
+	/* book 2 specification */
+	Book2.title = "Telecom Billing"
+	Book2.author = "Zara Ali"
+	Book2.subject = "Telecom Billing Tutorial"
+	Book2.book_id = 6495700
+	
+	/* print Book1 info */
+	fmt.Printf( "Book 1 title : %s\n", Book1.title)
+	fmt.Printf( "Book 1 author : %s\n", Book1.author)
+	fmt.Printf( "Book 1 subject : %s\n", Book1.subject)
+	fmt.Printf( "Book 1 book_id : %d\n", Book1.book_id)
+	
+	fmt.Printf("----------------------------\n")
+	
+	/* print Book2 info */
+	fmt.Printf( "Book 2 title : %s\n", Book2.title)
+	fmt.Printf( "Book 2 author : %s\n", Book2.author)
+	fmt.Printf( "Book 2 subject : %s\n", Book2.subject)
+	fmt.Printf( "Book 2 book_id : %d\n", Book2.book_id)
+}
+
+func sendingStructsToFunctions(){
+	
+	/* Declare Book1 of type Book */
+	var Book1 Books
+	
+	/* Declare Book2 of type Book */
+	var Book2 Books
+	
+	/* book 1 specification */
+	Book1.title = "Go Programming"
+	Book1.author = "Mahesh Kumar"
+	Book1.subject = "Go Programming Tutorial"
+	Book1.book_id = 6495407
+	
+	/* book 2 specification */
+	Book2.title = "Telecom Billing"
+	Book2.author = "Zara Ali"
+	Book2.subject = "Telecom Billing Tutorial"
+	Book2.book_id = 6495700
+	
+	/* print Book1 info */
+	funcWhichAllowsStructs(Book1)
+	
+	fmt.Printf("----------------------------\n")
+	
+	/* print Book2 info */
+	funcWhichAllowsStructsMixingPointers(&Book2)
+}
+
+func funcWhichAllowsStructs(book Books) {
+	fmt.Printf( "Book title : %s\n", book.title);
+	fmt.Printf( "Book author : %s\n", book.author);
+	fmt.Printf( "Book subject : %s\n", book.subject);
+	fmt.Printf( "Book book_id : %d\n", book.book_id);
+}
+
+func funcWhichAllowsStructsMixingPointers(pointerToBook *Books) {
+	fmt.Printf( "Pointer Book title : %s\n", pointerToBook.title);
+	fmt.Printf( "Pointer Book author : %s\n", pointerToBook.author);
+	fmt.Printf( "Pointer Book subject : %s\n", pointerToBook.subject);
+	fmt.Printf( "Pointer Book book_id : %d\n", pointerToBook.book_id);
+}
+
+func usingSlices(){
+	/* create a slice */
+	numbers := []int{0,1,2,3,4,5,6,7,8}   
+	printSlice(numbers)
+	
+	/* print the original slice */
+	fmt.Println("numbers ==", numbers)
+	
+	/* print the sub slice starting from index 1(included) to index 4(excluded)*/
+	fmt.Println("numbers[1:4] ==", numbers[1:4])
+	
+	/* missing lower bound implies 0*/
+	fmt.Println("numbers[:3] ==", numbers[:3])
+	
+	/* missing upper bound implies len(s)*/
+	fmt.Println("numbers[4:] ==", numbers[4:])
+	
+	numbers1 := make([]int,0,5)
+	printSlice(numbers1)
+	
+	/* print the sub slice starting from index 0(included) to index 2(excluded) */
+	number2 := numbers[:2]
+	printSlice(number2)
+	
+	/* print the sub slice starting from index 2(included) to index 5(excluded) */
+	number3 := numbers[2:5]
+	printSlice(number3)
+}
+
+func usingSlicesSecondPart(){
+	var numbers []int
+	printSlice(numbers)
+	
+	/* append allows nil slice */
+	numbers = append(numbers, 0)
+	printSlice(numbers)
+	
+	/* add one element to slice*/
+	numbers = append(numbers, 1)
+	printSlice(numbers)
+	
+	/* add more than one element at a time*/
+	numbers = append(numbers, 2,3,4)
+	printSlice(numbers)
+	
+	/* create a slice numbers1 with double the capacity of earlier slice*/
+	numbers1 := make([]int, len(numbers), (cap(numbers))*2)
+	
+	/* copy content of numbers to numbers1 */
+	copy(numbers1,numbers)
+	printSlice(numbers1)   
+}
+
+func printSlice(x []int){
+	fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+
+func usingRanges(){
+	/* create a slice */
+	numbers := []int{0,1,2,3,4,5,6,7,8} 
+	
+	/* print the numbers */
+	for i:= range numbers {
+		fmt.Println("Slice item",i,"is",numbers[i])
+	}
+	
+	fmt.Printf("----------------------------\n")
+	
+	/* create a map*/
+	countryCapitalMap := map[string] string {"France":"Paris","Italy":"Rome","Japan":"Tokyo"}
+	
+	/* print map using keys*/
+	for country := range countryCapitalMap {
+		fmt.Println("Capital of",country,"is",countryCapitalMap[country])
+	}
+	
+	fmt.Printf("----------------------------\n")
+	
+	/* print map using key-value*/
+	for country,capital := range countryCapitalMap {
+		fmt.Println("Capital of",country,"is",capital)
+	}
+}
+
